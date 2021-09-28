@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
+var methodOverride = require('method-override');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -16,6 +18,7 @@ app.set('view engine', 'hbs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride('_method'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -37,5 +40,16 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+//===============================================
+//CONEXION CON MONNGODB
+mongoose.connect('mongodb://127.0.0.1:27017/EleccionesDB', (error) => {
+  if (error){
+    console.log("Error al conectarse con base de datos... " + error.message);
+  } else {
+    console.log("Conectado con la base de datos de EleccionesDB" );
+  }
+})
+//===============================================
 
 module.exports = app;

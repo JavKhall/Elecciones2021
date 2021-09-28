@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "start-dev": "SET DEBUG=server:* & npm start",  
+    "start-dev": "SET DEBUG=server:* & npm start",
     "start-nodemon": "nodemon"
   },
   "dependencies": {
@@ -13,11 +13,15 @@
     "express": "~4.16.1",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
+    "method-override": "^3.0.0",
     "mongoose": "^6.0.7",
     "morgan": "~1.9.1"
   },
   "nodemonConfig": {
-    "ignore": ["test/*", "docs/*"],
+    "ignore": [
+      "test/*",
+      "docs/*"
+    ],
     "delay": 5000
   }
 }
