@@ -1,1 +1,27 @@
-<p>Estoy en la pagina de votacion</p>
+<div class="container mt-5">
+    <p class="info mb-0">Votación.</p>
+    <p class="mt-1">Seleccione a su candidato.</p>
+    <hr class="bg-secondary mb-4">
+    <div class="row justify-content-center">
+        
+        {{!-- AREA DE LOS CANDIDATOS --}}
+
+        {{!-- este segmento debe ser iterativo x4--}}
+        <div class="tarjeta col-5 m-3">
+            <div class=" ">
+                <img src="images/wallhaven-eyxqpw.png" class="imagen">  {{!-- IMAGEN DESDE LA BASE DE DATOS --}}
+            </div>
+            <div class="presentacion">
+                <h4 class="nombre">Morfeo</h4> {{!-- NOMBRE DESDE LA BASE DE DATOS --}}
+                <p class="partido font-italic">"Sueños Eternos"</p> {{!-- PARTIDAO DESDE LA BASE DE DATOS --}}
+            </div>
+            <div class="votar">
+                <button type="submit" class="btn btn-danger ml-4">Votar</button>
+            </div>
+        </div>
+        {{!-- fin iterativo x4--}}
+
+        {{!-- FIN DE AREA DE LOS CANDIDATOS --}}
+    </div>
+</div>
+
