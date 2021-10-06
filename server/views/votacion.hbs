@@ -7,18 +7,20 @@
         {{!-- AREA DE LOS CANDIDATOS --}}
 
         {{!-- este segmento debe ser iterativo x4--}}
+        {{#each lista}}
         <div class="tarjeta col-5 m-3">
             <div class=" ">
-                <img src="images/wallhaven-eyxqpw.png" class="imagen">  {{!-- IMAGEN DESDE LA BASE DE DATOS --}}
+                <img src="{{this.imagen}}" class="imagen">  {{!-- IMAGEN DESDE LA BASE DE DATOS --}}
             </div>
             <div class="presentacion">
-                <h4 class="nombre">Morfeo</h4> {{!-- NOMBRE DESDE LA BASE DE DATOS --}}
-                <p class="partido font-italic">"Sueños Eternos"</p> {{!-- PARTIDAO DESDE LA BASE DE DATOS --}}
+                <h4 class="nombre">{{this.nombre}}</h4> {{!-- NOMBRE DESDE LA BASE DE DATOS --}}
+                <p class="partido font-italic">"{{this.partido}}"</p> {{!-- PARTIDO DESDE LA BASE DE DATOS --}}
             </div>
             <div class="votar">
                 <button type="submit" class="btn btn-danger ml-4">Votar</button>
             </div>
         </div>
+        {{/each}}
         {{!-- fin iterativo x4--}}
 
         {{!-- FIN DE AREA DE LOS CANDIDATOS --}}

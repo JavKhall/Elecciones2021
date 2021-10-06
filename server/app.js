@@ -49,7 +49,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/EleccionesDB', (error) => {
   } else {
     console.log("**Conectado con la base de datos de EleccionesDB**" );
   }
-})
+});
 //===============================================
 
 module.exports = app;
