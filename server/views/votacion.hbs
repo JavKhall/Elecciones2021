@@ -17,13 +17,17 @@
                 <p class="partido font-italic">"{{this.partido}}"</p> {{!-- PARTIDO DESDE LA BASE DE DATOS --}}
             </div>
             <div class="votar">
-                <button type="submit" class="btn btn-danger ml-4">Votar</button>
+                <a type="button" class="btn btn-danger ml-4" href="http://localhost:3000/registro/{{this._id}}">Votar</a>
             </div>
         </div>
         {{/each}}
         {{!-- fin iterativo x4--}}
 
         {{!-- FIN DE AREA DE LOS CANDIDATOS --}}
+
+        {{valor}}
     </div>
 </div>
 
+{{!-- QUEDA REVISAR DIRECCIONAMIENTO DEL BOTON PARA REALIZAR LA VOTACION,
+    SE DEBE PARA EL ID DEL SELECCIONADO --}}
