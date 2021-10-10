@@ -8,7 +8,7 @@
 
         {{!-- este segmento debe ser iterativo x4--}}
         {{#each lista}}
-        <div class="tarjeta col-5 m-3">
+        <form class="tarjeta col-5 m-3" id="votacion" action="/votacion?_method=PUT" method="post" enctype="application/json">
             <div class=" ">
                 <img src="{{this.imagen}}" class="imagen">  {{!-- IMAGEN DESDE LA BASE DE DATOS --}}
             </div>
@@ -16,10 +16,12 @@
                 <h4 class="nombre">{{this.nombre}}</h4> {{!-- NOMBRE DESDE LA BASE DE DATOS --}}
                 <p class="partido font-italic">"{{this.partido}}"</p> {{!-- PARTIDO DESDE LA BASE DE DATOS --}}
             </div>
+            <input type="hidden" name="id" value="{{this._id}}">
+            <input type="hidden" name="votos" value="{{this.votos}}">
             <div class="votar">
-                <a type="button" class="btn btn-danger ml-4" href="http://localhost:3000/registro/{{this._id}}">Votar</a>
+                <button type="submit" class="btn btn-danger ml-4">Votar</button>
             </div>
-        </div>
+        </form>
         {{/each}}
         {{!-- fin iterativo x4--}}
 

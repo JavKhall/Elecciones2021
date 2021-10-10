@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var candidatos = require('../models/candidatosModel');
 var votantes = require('../models/votantesModel');
+var temporaldni = 0;
 var habilitado = false;
 
 //==============================INDEX=============================//
@@ -20,7 +21,7 @@ router.get('/registro', (req, res, next) => {
 /* PAGINA DE VOTACION */
 router.get('/votacion', (req, res, next) => {
   if (habilitado){
-    candidatos.find({}, {nombre: 1, partido: 1, imagen: 1}, (err, lista) => {
+    candidatos.find({}, {}, (err, lista) => {
       if (err) {
         console.log('Error: ' + err.message);
         next (err);
@@ -30,7 +31,7 @@ router.get('/votacion', (req, res, next) => {
       //res.status(200).jsonp(lista);
     });
   } else {
-    res.status(200).redirect('index');
+    res.status(200).redirect('informacion');
   }
 });
 
@@ -39,38 +40,96 @@ router.get('/resultados', (req, res, next) => {
   res.render('resultados');
 })
 
+/* PAGINA DE INFORMACION*/
+router.get('/informacion', (req, res, next) => {
+  res.render('informacion');
+})
+
 //================================================================//
 /* PAGINA DE REGISTRO */
-router.put('/registro', (req, res, next) => {
-  //se verifica si el dni esta en el array, si se devuelve algo, es por que el documento esta, caso contrario, si esta vacio es xq el documento no esta cargado
-  votantes.find({dni: req.body.dni}, {}, (err, documentos) => {
+router.post('/registro', (req, res, next) => {
+  //se verifica si el documento ya esta en la base de datos
+  votantes.find({dni: req.body.dni}, {}, (err, documento) => {
     if (err) {
       console.log('Error: ' + err.message);
       next (err);
-    } else if (documentos.length == 0) { //si esta vacio el numero de documento debe guardarse
-      console.log("estaria vacio");
-      votantes.updateOne({}, {$push: {dni: req.body.dni}}, (err, resultado) => {
+    } 
+
+    // console.log(documento[0].dni);
+    // res.status(200).jsonp(documento[0].dni);
+    else if (documento.length != 0 )  { // el documento esta grabado
+      if (documento[0].yaVoto == true) {
+        console.log("el documento ya esta en la lista y ya voto");
+        res.status(200).render('informacion');
+      } 
+      else { //aun no voto
+        temporaldni = req.body.dni;
+        habilitado = true; 
+        res.status(200).redirect('votacion');
+      }
+    } 
+    else { //el documente no esta grabado
+      let dniRegitro = new votantes (
+        { dni: req.body.dni,
+          yaVoto: false
+        }
+      );
+
+      dniRegitro.save((err, resultado) => {
+        if (err) {
+          console.log('Error: ' + err.message);
+          next (err);
+        } 
+        else {
+          temporaldni = req.body.dni;
+          habilitado = true; 
+          res.status(200).redirect('votacion');
+        }
+      }); //fin del save
+    }; // final else  
+  }); // final find    
+}); // final post      
+
+
+/* PAGINA DE VOTACION */
+router.put('/votacion', (req, res, next) => {
+  let suma = parseInt(req.body.votos)+1;
+  console.log(temporaldni);
+
+  candidatos.updateOne({_id: req.body.id}, {votos: suma}, (err, candidato) => {
+    if (err) {
+      console.log('Error: ' + err.message);
+      next (err);
+    } else {
+      votantes.updateOne({dni: temporaldni}, {yaVoto: true}, (err, resultado) => {
         if (err) {
           console.log('Error: ' + err.message);
           next (err);
         } else {
           console.log(resultado);
+          temporaldni = 0;
+          habilitado = false;
+          res.status(200).render('informacion');
         }
-      })
-      // deberia saltar a la siguiente pagina
-      //temporaldoc = req.body.dni;
-      habilitado = true; 
-      res.status(200).redirect('votacion');
-    } else {
-      console.log("el documento ya esta en la lista");
-      res.status(200).render('registro');
-      // mensaje de error y de nuevo a la pagina de registro
-    };
+      });
+
+
+    }
   });
+
+
+  {
+
+  }
+
+
+
+
+
+
+
+
 });
-
-/* PAGINA DE VOTACION */
-
 //================================================================//
 
 module.exports = router;
