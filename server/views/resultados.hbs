@@ -7,20 +7,22 @@
         {{!-- AREA DE LOS CANDIDATOS --}}
 
         {{!-- este segmento debe ser iterativo x4--}}
+        {{#each orden}}
         <div class="tarjeta col-8 m-3">
             <div class=" ">
-                <img src="images/wallhaven-eyxqpw.png" class="imagen">
+                <img src="{{this.imagen}}" class="imagen">
             </div>
             <div class="presentacion">
-                <h4 class="nombre">Morfeo</h4>
-                <p class="partido font-italic">"Sueños Eternos"</p>
+                <h4 class="nombre">{{this.nombre}}</h4>
+                <p class="partido font-italic">"{{this.partido}}"</p>
                 <div class="resultado">
                     <div class="progress">
-                        <div class="progress-bar" style="width: 65%;">65%</div>
+                        <div class="progress-bar" style="width: {{this.votos}}%;">{{this.votos}}%</div>
                     </div>
                 </div>
             </div>
         </div>
+        {{/each}}
         {{!-- fin iterativo x4--}}
     </div>
 </div>

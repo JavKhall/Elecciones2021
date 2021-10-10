@@ -47,7 +47,53 @@ router.get('/votacion', (req, res, next) => {
 
 /* PAGINA DE ESTADISTICAS*/ 
 router.get('/resultados', (req, res, next) => {
-  res.render('resultados');
+  var valor = 0;
+
+  candidatos.aggregate([{
+    $group: { _id:' ', total:{$sum:'$votos'} } 
+    }], (err, resultado) => {
+  
+    valor = resultado[0].total;
+    console.log ("Valor de consulta: "+resultado[0].total);
+    
+
+    console.log ("Valor asignado: "+valor);
+    
+  
+  });
+  
+  candidatos.find({}, {}, (err, orden) => {
+    if (err) {
+      console.log('Error: ' + err.message);
+      next (err);
+    } else {
+      //orden.push(valor);
+      for (let i = 0; i < orden.length; i++) {
+        let porcentaje = (orden[i].votos/valor)*100;       
+        orden[i].votos = porcentaje;
+      }
+      res.render('resultados', {orden});
+      //res.status(200).jsonp(orden);
+    };
+  }).sort({votos: -1});
+
+  //
+  
+
+
+
+
+  // ;
+  
+  // console.log("muestro datos");
+  // console.log(datos);
+
+
+  
+
+
+
+  //
 })
 
 /* PAGINA DE INFORMACION*/
@@ -79,7 +125,10 @@ router.post('/registro', (req, res, next) => {
       else { //aun no voto
         temporaldni = req.body.dni;
         habilitado = true; 
-        res.status(200).redirect('votacion');
+        salida.texto1 = "Se verifico que el numero de documento ingresado ya se encuntra registrado en la base de datos.";
+        salida.texto2 = "Pero no realizo su voto correspondiente, presione Continuar para votar.";
+        salida.destino = "http://localhost:3000/votacion";
+        res.status(200).redirect('informacion');
       }
     } 
     else { //el documente no esta grabado
