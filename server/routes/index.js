@@ -4,6 +4,13 @@ var candidatos = require('../models/candidatosModel');
 var votantes = require('../models/votantesModel');
 var temporaldni = 0;
 var habilitado = false;
+var salida = [
+	{
+		"texto1": " ",
+		"texto2": " ",
+		"destino": " "
+	}
+];
 
 //==============================INDEX=============================//
 /* GET PARA LA PAGINA DE INICIO, PRESENTACION */
@@ -31,6 +38,9 @@ router.get('/votacion', (req, res, next) => {
       //res.status(200).jsonp(lista);
     });
   } else {
+    salida.texto1 = "Se verifico que no se ha registrado antes de realizar la votacion.";
+    salida.texto2 = "Por favor presione en Continura para completar el formulario.";
+    salida.destino = "http://localhost:3000/registro";
     res.status(200).redirect('informacion');
   }
 });
@@ -42,7 +52,7 @@ router.get('/resultados', (req, res, next) => {
 
 /* PAGINA DE INFORMACION*/
 router.get('/informacion', (req, res, next) => {
-  res.render('informacion');
+  res.render('informacion', {salida});
 })
 
 //================================================================//
@@ -59,8 +69,12 @@ router.post('/registro', (req, res, next) => {
     // res.status(200).jsonp(documento[0].dni);
     else if (documento.length != 0 )  { // el documento esta grabado
       if (documento[0].yaVoto == true) {
-        console.log("el documento ya esta en la lista y ya voto");
-        res.status(200).render('informacion');
+        // console.log("el documento ya esta en la lista y ya voto");
+        salida.texto1 = "Se verifico que el numero de documento ingresado ya se encuntra registrado en la base de datos.";
+        salida.texto2 = "Por favor verifique que el numero de documento a ingresar sea el correcto.";
+        salida.destino = "http://localhost:3000/registro";
+
+        res.status(200).redirect('informacion');
       } 
       else { //aun no voto
         temporaldni = req.body.dni;
@@ -101,6 +115,7 @@ router.put('/votacion', (req, res, next) => {
       console.log('Error: ' + err.message);
       next (err);
     } else {
+      // actualizo estado del votante
       votantes.updateOne({dni: temporaldni}, {yaVoto: true}, (err, resultado) => {
         if (err) {
           console.log('Error: ' + err.message);
@@ -109,27 +124,15 @@ router.put('/votacion', (req, res, next) => {
           console.log(resultado);
           temporaldni = 0;
           habilitado = false;
-          res.status(200).render('informacion');
+          salida.texto1 = "Se registro con exito su votacion.";
+          salida.texto2 = "Muchas Gracias por su participacion.";
+          salida.destino = "http://localhost:3000/";
+          res.status(200).redirect('informacion');
         }
-      });
-
-
-    }
-  });
-
-
-  {
-
-  }
-
-
-
-
-
-
-
-
-});
+      }); // fin de update de votantes
+    } // fin del else de candidatos
+  }); // fin update candidatos
+}); // fin del put
 //================================================================//
 
 module.exports = router;
