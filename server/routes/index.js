@@ -1,7 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var candidatos = require('../models/candidatosModel');
-var votantes = require('../models/votantesModel');
 
 var eleccionControl = require('../controllers/eleccionControl');
 
@@ -43,7 +41,7 @@ router.get('/votacion', eleccionControl.getVotacion, (result, req, res, next) =>
     res.status(200).render('votacion', {'lista':result.lista});
   } else {
     salida.texto1 = "Se verifico que no se ha registrado antes de realizar la votacion.";
-    salida.texto2 = "Por favor presione en Continura para completar el formulario.";
+    salida.texto2 = "Por favor presione en Continuar para completar el formulario.";
     salida.destino = "http://localhost:3000/registro";
     res.status(200).redirect('informacion')
   }
