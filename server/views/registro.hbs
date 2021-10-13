@@ -1,40 +1,43 @@
-{{!-- <p>Estoy en registro de votante</p>
-
-<a href="http://localhost:3000/votacion"> ir a votar </a> --}}
-
-<div class="container mt-5">
-        <p class="info mb-0">Ingrese los datos para el registro.</p>
-        <p class="text-danger mt-1">*Todos los datos requeridos son obligatorios</p>
-        <hr class="bg-secondary mb-4">
+<div class="container mt-4 mb-3">
+    <p class="info mb-0">Ingrese los datos para el registro.</p>
+    <p class="aviso text-danger mt-1">*Todos los datos requeridos son obligatorios.</p>
+    <p class="aviso text-danger">**Solo ingrese en numero de su documento, sin puntos.</p> 
         
-        <div class="container mt-4 pt-4">
-            <form id="registro" action="/registro" method="POST" enctype="application/json">
-                <div class="row form-group mb-4">
-                    <label for="nombre" class="col-form-label col-3" >Nombre Completo</label>
-                    <div class="col-7">
-                        <input type="text" name="nombre" class="form-control"  minlength="5" maxlength="50" required>
-                    </div>
+    <hr class="bg-secondary mb-4">
+    
+    <div class="container mt-1 p1-2 mt-lg-4 pt-lg-4">
+        <form id="formulario" action="/registro" method="POST" enctype="application/json">
+            <div class="row form-group mb-3">
+                <label for="nombre" class="col-form-label col-lg-3">Nombre Completo</label>
+                <div class="col-12 col-lg-7">
+                    <input type="text" name="nombre" class="form-control"  minlength="5" maxlength="50" required>
+                    <p id="mensaje_nombre" class="error-aviso text-danger mensaje_oculto">El nombre no puede tener numeros o simbolos</p>
                 </div>
+            </div>
 
-                <div class="row form-group mb-4">
-                    <label for="dni" class="col-form-label col-3">Documento</label>
-                    <div class="col-3">
-                        <input type="text" name="dni" id="dni" class="form-control" required minlength="8" maxlength="8">
-                    </div>
+            <div class="row form-group mb-3">
+                <label for="dni" class="col-form-label col-lg-3">Documento</label>
+                <div class="col-9 col-md-5 col-lg-3">
+                    <input type="text" name="dni" id="dni" class="form-control" required minlength="8" maxlength="8">
+                    <p id="mensaje_dni" class="error-aviso text-danger mensaje_oculto">El documento solo puede tener numeros</p>
                 </div>
-                
-                <div class="row form-group mb-4">
-                    <label for="sexo" class="col-form-label col-3">Sexo</label>
-                    <div class="col-3">
-                        <select name="sexo" type="text" class="form-control" required>
-                            <option value="M">Masculino</option>
-                            <option value="F">Femenino</option>
-                        </select>
-                    </div>
+            </div>
+            
+            <div class="row form-group mb-4">
+                <label for="sexo" class="col-form-label col-lg-3">Sexo</label>
+                <div class="col-9 col-md-5 col-lg-3">
+                    <select name="sexo" type="text" class="form-control" required>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
+                    </select>
                 </div>
-                <div class="row form-group justify-content-end">
-                    <button type="submit" class="btn btn-primary boton mt-4 mr-3">Continuar</button>
-                </div>
-            </form>
-        </div>
-    </div> 
+            </div>
+            <div class="row form-group justify-content-end">
+                <button type="submit" class="btn btn-primary boton mt-4 mr-3">Continuar</button>
+            </div>
+
+        
+        </form>
+    </div>
+
+</div> 

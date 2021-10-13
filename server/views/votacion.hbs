@@ -1,14 +1,14 @@
-<div class="container mt-5">
+<div class="container mt-4 mb-3">
     <p class="info mb-0">Votación.</p>
     <p class="mt-1">Seleccione a su candidato.</p>
-    <hr class="bg-secondary mb-4">
+    <hr class="bg-secondary mb-md-4 mb-lg-5">
     <div class="row justify-content-center">
         
         {{!-- AREA DE LOS CANDIDATOS --}}
 
         {{!-- este segmento debe ser iterativo x4--}}
         {{#each lista}}
-        <form class="tarjeta col-5 m-3" id="votacion" action="/votacion?_method=PUT" method="post" enctype="application/json">
+        <form class="tarjeta col-12 m-3 col-md-10 col-lg-5 m-lg-3" id="votacion" action="/votacion?_method=PUT" method="post" enctype="application/json">
             <div class=" ">
                 <img src="{{this.imagen}}" class="imagen">  {{!-- IMAGEN DESDE LA BASE DE DATOS --}}
             </div>
